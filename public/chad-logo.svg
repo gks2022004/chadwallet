@@ -1,0 +1,11 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="6" y="6" width="108" height="108" rx="28" fill="#0c0e15" stroke="#c8ff4d" stroke-width="4"/>
+  <!-- coin face -->
+  <circle cx="60" cy="60" r="34" fill="#c8ff4d"/>
+  <!-- sunglasses (the chad) -->
+  <rect x="32" y="52" width="22" height="13" rx="4" fill="#07080c"/>
+  <rect x="66" y="52" width="22" height="13" rx="4" fill="#07080c"/>
+  <rect x="54" y="56" width="12" height="3" rx="1.5" fill="#07080c"/>
+  <!-- strong jaw / smirk -->
+  <path d="M44 78 q16 12 32 0" stroke="#07080c" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+</svg>
