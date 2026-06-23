@@ -1,201 +1,169 @@
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import TokenBanner from "@/components/TokenBanner";
 import StoreButtons from "@/components/StoreButtons";
 import Logo from "@/components/Logo";
 
-const FEATURES = [
+const PRODUCT_FLOWS = [
   {
-    icon: "⚡",
-    title: "Trade in seconds",
-    body: "From memecoins to blue chips — buy and sell any Solana token instantly with one-tap swaps powered by Jupiter.",
+    eyebrow: "01 · spot trading",
+    title: "Catch the move. Trade the move.",
+    body: "Find what is trending, open a live chart, and buy or sell in a few taps without leaving the signal.",
+    image: "/flow/buy-sell-4.png",
+    alt: "ChadWallet flow for finding and trading trending tokens",
   },
   {
-    icon: "🔑",
-    title: "No seed phrase",
-    body: "Sign in with Apple or Google. ChadWallet spins up a secure embedded wallet for you. No 12 words to lose.",
+    eyebrow: "02 · social alpha",
+    title: "See the people behind the price.",
+    body: "Follow KOL activity, inspect performance, and move from a trader signal to the token chart instantly.",
+    image: "/flow/kol-4.png",
+    alt: "ChadWallet flow for following KOL traders",
   },
   {
-    icon: "📈",
-    title: "Live charts & trades",
-    body: "Real-time price charts, holder counts and a live trade feed on every token. See the flow before you ape.",
-  },
-  {
-    icon: "🔔",
-    title: "Never miss out",
-    body: "Trending banners and movers surface the hottest tokens the moment they start running.",
-  },
-  {
-    icon: "🏆",
-    title: "Built for legends",
-    body: "Track your positions and PnL in one place. Climb the ranks from degen to certified chad.",
-  },
-  {
-    icon: "🌐",
-    title: "Anywhere, gasless",
-    body: "Trade from your phone or desktop and never lose a beat. Fees abstracted so you focus on the chart.",
+    eyebrow: "03 · wallet",
+    title: "Your assets, without the admin.",
+    body: "Send, receive, deposit and withdraw from one clean wallet. No seed phrase and no maze of screens.",
+    image: "/flow/portfolio-4.png",
+    alt: "ChadWallet portfolio and asset management flow",
   },
 ];
 
-const STATS = [
-  { k: "Tokens", v: "1M+" },
-  { k: "Swaps routed", v: "Jupiter" },
-  { k: "Settlement", v: "<1s" },
-  { k: "Chain", v: "Solana" },
+const QUICK_FEATURES = [
+  ["Live", "Token charts, trades and market activity"],
+  ["Social", "KOL moves and early trends from X"],
+  ["Instant", "Fast swaps routed on Solana"],
+  ["Simple", "Apple or Google sign-in, no seed phrase"],
 ];
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <TokenBanner durationSec={75} />
 
-      <main className="flex-1">
-        {/* ── Hero ─────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 aurora" />
-          <div className="absolute inset-0 star-field opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-24 pb-28 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 text-xs text-muted mb-8">
-              <span className="w-2 h-2 rounded-full bg-up live-dot" />
-              Live on Solana · powered by real market data
-            </div>
-            <h1 className="mx-auto max-w-4xl text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.02]">
-              where degens become <span className="text-lime">legends.</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg sm:text-xl text-muted">
-              From memecoins to viral tokens, trade any crypto in seconds.
-              Sign in with Apple or Google — no seed phrase, no friction.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-              <a href="#download" className="btn-lime rounded-2xl px-7 py-3.5 text-base">
-                Download app
-              </a>
-              <Link href="/trade" className="btn-ghost rounded-2xl px-7 py-3.5 text-base">
-                Start trading →
-              </Link>
-            </div>
-            <div className="mt-7 flex justify-center">
-              <StoreButtons />
-            </div>
-
-            {/* floating stat card */}
-            <div className="relative mt-20 mx-auto max-w-3xl">
-              <div className="float rounded-3xl border border-border bg-surface/80 backdrop-blur p-2 shadow-2xl shadow-black/50">
-                <div className="rounded-2xl bg-bg-2 p-6 sm:p-8">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {STATS.map((s) => (
-                      <div key={s.k} className="text-left">
-                        <div className="text-2xl sm:text-3xl font-bold text-lime">{s.v}</div>
-                        <div className="text-xs text-muted mt-1 uppercase tracking-wide">{s.k}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+      <main>
+        <section className="hero-shell">
+          <div className="hero-grid" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-4 pb-16 pt-16 sm:px-6 md:pt-24 lg:grid-cols-[0.82fr_1.18fr] lg:pb-24">
+            <div className="relative z-10">
+              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-surface/75 px-3.5 py-2 text-xs font-medium text-muted">
+                <span className="live-dot h-2 w-2 rounded-full bg-up" />
+                Built for the speed of Solana
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Cross-platform ───────────────────────────────────── */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
-                Trade from anywhere.<br />
-                <span className="text-gold">Never lose a beat.</span>
-              </h2>
-              <p className="mt-5 text-lg text-muted max-w-lg">
-                Your wallet, positions and watchlist sync across phone and desktop.
-                Open ChadWallet on the web to dive into the full trading terminal —
-                charts, holders, live trades and instant swaps.
+              <h1 className="max-w-2xl text-5xl font-semibold leading-[0.96] tracking-[-0.065em] sm:text-6xl md:text-7xl">
+                Your unfair edge in <span className="text-up">crypto.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+                Catch early trends, follow winning wallets and trade any token—before the timeline catches up.
               </p>
-              <Link href="/trade" className="inline-block mt-7 btn-lime rounded-2xl px-6 py-3">
-                Open the terminal →
-              </Link>
-            </div>
-            <div className="rounded-3xl border border-border bg-surface/60 p-6">
-              <div className="space-y-3">
-                {["BUY 1.5 SOL of BONK", "SELL 60% of WIF", "Position +214%"].map((row, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between rounded-xl bg-bg-2 px-4 py-3 border border-border-soft"
-                  >
-                    <span className="font-mono text-sm">{row}</span>
-                    <span className={`text-xs font-semibold ${i === 1 ? "text-down" : "text-up"}`}>
-                      {i === 1 ? "filled" : "✓ done"}
-                    </span>
-                  </div>
-                ))}
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <a href="#download" className="btn-lime rounded-full px-6 py-3.5 text-sm">
+                  Get the app
+                </a>
+                <Link href="/trade" className="btn-ghost rounded-full px-6 py-3.5 text-sm font-semibold">
+                  Trade on web <span aria-hidden="true">↗</span>
+                </Link>
               </div>
+              <div className="mt-10 flex items-center gap-4 text-xs text-muted-2">
+                <div className="flex -space-x-2" aria-hidden="true">
+                  {["J", "◎", "X"].map((letter) => (
+                    <span key={letter} className="grid h-8 w-8 place-items-center rounded-full border-2 border-bg bg-surface-2 font-semibold text-text">
+                      {letter}
+                    </span>
+                  ))}
+                </div>
+                Live market data · Jupiter routing · Self-custody
+              </div>
+            </div>
+
+            <div className="hero-product-card">
+              <div className="hero-product-topline">
+                <Logo size={46} variant="light" showWordmark={false} />
+                <span>One app. Every edge.</span>
+              </div>
+              <Image
+                src="/flow/buy-sell-4.png"
+                alt="Buy and sell trending tokens in ChadWallet"
+                width={3840}
+                height={2160}
+                priority
+                className="hero-product-image"
+              />
             </div>
           </div>
         </section>
 
-        {/* ── Features ─────────────────────────────────────────── */}
-        <section id="features" className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">never miss out again</h2>
-            <p className="mt-4 text-muted text-lg">Everything a chad needs to trade Solana like a pro.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-2xl border border-border bg-surface/50 p-6 hover:border-lime/50 hover:bg-surface transition-colors"
-              >
-                <div className="text-3xl mb-4">{f.icon}</div>
-                <h3 className="text-lg font-semibold">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted leading-relaxed">{f.body}</p>
+        <section className="border-y border-border-soft bg-bg-2/60">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4">
+            {QUICK_FEATURES.map(([title, body]) => (
+              <div key={title} className="border-border-soft px-3 py-8 even:border-l sm:px-6 lg:border-l lg:first:border-l-0">
+                <p className="text-sm font-semibold text-up">{title}</p>
+                <p className="mt-1.5 max-w-[15rem] text-xs leading-relaxed text-muted">{body}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── Download CTA ─────────────────────────────────────── */}
-        <section id="download" className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-bg-2 px-6 py-16 sm:px-16 text-center">
-            <div className="absolute inset-0 aurora opacity-80" />
-            <div className="relative">
-              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight max-w-2xl mx-auto">
-                Get ChadWallet. Become a legend.
+        <section id="features" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32">
+          <div className="mb-16 max-w-3xl">
+            <p className="section-kicker">The full flow</p>
+            <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl">
+              From signal to position, without losing the moment.
+            </h2>
+          </div>
+
+          <div className="space-y-24 sm:space-y-32">
+            {PRODUCT_FLOWS.map((flow, index) => (
+              <article key={flow.title} className="grid items-center gap-8 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14">
+                <div className={index % 2 ? "lg:order-2" : ""}>
+                  <p className="section-kicker">{flow.eyebrow}</p>
+                  <h3 className="mt-3 text-3xl font-semibold leading-tight tracking-[-0.045em] sm:text-4xl">{flow.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-muted">{flow.body}</p>
+                </div>
+                <div className={`flow-frame ${index % 2 ? "lg:order-1" : ""}`}>
+                  <Image src={flow.image} alt={flow.alt} width={3840} height={2160} className="h-auto w-full" />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="download" className="px-4 pb-24 sm:px-6 sm:pb-32">
+          <div className="download-panel mx-auto max-w-7xl overflow-hidden rounded-[2rem]">
+            <div className="relative z-10 max-w-2xl">
+              <div className="mb-7 inline-flex rounded-2xl bg-black p-2">
+                <Logo size={58} showWordmark={false} />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-black/55">Available now</p>
+              <h2 className="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.055em] text-black sm:text-6xl">
+                The market moves fast. Move with it.
               </h2>
-              <p className="mt-4 text-muted text-lg max-w-xl mx-auto">
-                Download for iPhone or Android, or jump straight into the web terminal.
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-black/65 sm:text-lg">
+                Download ChadWallet for iPhone or Android, or open the live trading terminal on the web.
               </p>
-              <div className="mt-8 flex justify-center">
-                <StoreButtons />
+              <div className="mt-8">
+                <StoreButtons className="download-store-buttons" />
               </div>
-              <div className="mt-5">
-                <Link href="/trade" className="text-sm text-lime hover:underline">
-                  or trade on the web →
-                </Link>
-              </div>
+              <Link href="/trade" className="mt-6 inline-block text-sm font-bold text-black underline decoration-black/30 underline-offset-4 hover:decoration-black">
+                Continue on web ↗
+              </Link>
             </div>
           </div>
         </section>
       </main>
 
-      <TokenBanner reverse durationSec={90} />
-
-      {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="border-t border-border-soft">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col items-center sm:items-start gap-3">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-6">
+          <div>
             <Logo />
-            <p className="text-xs text-muted-2 max-w-sm text-center sm:text-left">
-              ChadWallet is a non-custodial trading wallet for Solana. Markets are volatile —
-              trade responsibly.
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-2">
+              A non-custodial Solana trading wallet. Crypto is volatile—trade responsibly.
             </p>
           </div>
-          <div className="flex items-center gap-7 text-sm text-muted">
+          <div className="flex gap-6 text-sm text-muted">
             <Link href="/trade" className="hover:text-text">Trade</Link>
             <a href="#features" className="hover:text-text">Features</a>
             <a href="#download" className="hover:text-text">Download</a>
           </div>
-        </div>
-        <div className="border-t border-border-soft py-5 text-center text-xs text-muted-2">
-          © 2026 ChadWallet · Built on Solana
         </div>
       </footer>
     </>

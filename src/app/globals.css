@@ -1,23 +1,21 @@
 @import "tailwindcss";
 
-/* ── ChadWallet design tokens ─────────────────────────────────────────────
-   Cosmic-dark base, electric-lime primary (energy / "go"), gold accent
-   (status / legend), red-green for market direction. */
+/* Dark trading UI with the mint/sky palette used across the product flows. */
 :root {
-  --bg: #07080c;
-  --bg-2: #0c0e15;
-  --surface: #12151f;
-  --surface-2: #181c28;
-  --border: #232838;
-  --border-soft: #1a1e2b;
-  --text: #eef1f8;
-  --muted: #888fa3;
-  --muted-2: #5e6577;
-  --lime: #c8ff4d;
-  --lime-dim: #9fd62f;
-  --gold: #ffc24b;
-  --up: #34d399;
-  --down: #f6515f;
+  --bg: #020712;
+  --bg-2: #060b17;
+  --surface: #0c1322;
+  --surface-2: #152035;
+  --border: #243149;
+  --border-soft: #141e30;
+  --text: #f4f7fb;
+  --muted: #8c99ae;
+  --muted-2: #5a687f;
+  --lime: #20e883;
+  --lime-dim: #12bd69;
+  --gold: #55c7ff;
+  --up: #20e883;
+  --down: #ff443d;
 }
 
 @theme inline {
@@ -54,12 +52,131 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background: var(--lime);
+  color: #00150b;
+}
+
+.logo-mark {
+  border-radius: 28%;
+  object-fit: cover;
+}
+
+.hero-shell {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 84% 15%, rgba(40, 155, 255, 0.12), transparent 27%),
+    radial-gradient(circle at 15% 80%, rgba(32, 232, 131, 0.08), transparent 30%),
+    var(--bg);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black, transparent 82%);
+}
+
+.hero-product-card,
+.flow-frame {
+  overflow: hidden;
+  border: 1px solid rgba(112, 206, 255, 0.35);
+  background: linear-gradient(145deg, #2e9ff4 0%, #56c8ed 48%, #91e0ca 100%);
+  box-shadow: 0 35px 90px -35px rgba(36, 156, 245, 0.45);
+}
+
+.hero-product-card {
+  position: relative;
+  border-radius: 2rem;
+  padding: 1rem;
+  transform: rotate(1.2deg);
+}
+
+.hero-product-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.4rem 1rem;
+  color: #03101e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hero-product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 1.25rem;
+}
+
+.section-kicker {
+  color: var(--up);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.flow-frame {
+  border-radius: 1.75rem;
+  padding: 0.45rem;
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.flow-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 42px 100px -42px rgba(36, 156, 245, 0.65);
+}
+
+.flow-frame img {
+  border-radius: 1.35rem;
+}
+
+.download-panel {
+  position: relative;
+  padding: 3.5rem 1.5rem;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.4), transparent 25%),
+    linear-gradient(135deg, #2b9cf4 0%, #55c8ed 48%, #93e2c7 100%);
+}
+
+.download-panel::after {
+  content: "CW";
+  position: absolute;
+  right: -0.04em;
+  bottom: -0.28em;
+  color: rgba(0, 0, 0, 0.09);
+  font-size: clamp(12rem, 32vw, 31rem);
+  font-weight: 700;
+  letter-spacing: -0.12em;
+  line-height: 1;
+}
+
+.download-store-buttons a {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: #020712;
+}
+
+@media (min-width: 640px) {
+  .download-panel { padding: 5rem; }
+}
+
+@media (max-width: 1023px) {
+  .hero-product-card { transform: none; }
+}
+
 /* Cosmic aurora glow behind the hero */
 .aurora {
   background:
-    radial-gradient(60% 50% at 50% 0%, rgba(200, 255, 77, 0.14), transparent 70%),
-    radial-gradient(40% 40% at 85% 15%, rgba(255, 194, 75, 0.1), transparent 70%),
-    radial-gradient(45% 45% at 10% 25%, rgba(120, 90, 255, 0.12), transparent 70%);
+    radial-gradient(60% 50% at 50% 0%, rgba(32, 232, 131, 0.14), transparent 70%),
+    radial-gradient(40% 40% at 85% 15%, rgba(45, 160, 245, 0.12), transparent 70%),
+    radial-gradient(45% 45% at 10% 25%, rgba(32, 232, 131, 0.08), transparent 70%);
 }
 
 .star-field {
@@ -113,11 +230,11 @@ body {
   color: #0a0d05;
   font-weight: 700;
   transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 0 0 0 rgba(200, 255, 77, 0.5);
+  box-shadow: 0 0 0 0 rgba(32, 232, 131, 0.5);
 }
 .btn-lime:hover {
   filter: brightness(1.05);
-  box-shadow: 0 8px 30px -6px rgba(200, 255, 77, 0.5);
+  box-shadow: 0 8px 30px -6px rgba(32, 232, 131, 0.45);
   transform: translateY(-1px);
 }
 .btn-ghost {

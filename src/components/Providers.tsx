@@ -1,10 +1,13 @@
 "use client";
 
 import { PrivyProvider } from "@privy-io/react-auth";
-import { type ReactNode } from "react";
+import { toSolanaWalletConnectors } from "@privy-io/react-auth/solana";
+import { useMemo, type ReactNode } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+  // External Solana wallets (Phantom, Solflare, Backpack, …) for "connect wallet".
+  const solanaConnectors = useMemo(() => toSolanaWalletConnectors(), []);
 
   // Privy needs a real app id. If it isn't configured yet the app still renders
   // (so the landing page works offline-of-Privy); the sign-in button surfaces
@@ -23,10 +26,13 @@ export default function Providers({ children }: { children: ReactNode }) {
           logo: "/chad-logo.svg",
           walletChainType: "solana-only",
         },
-        loginMethods: ["google", "apple", "email"],
+        loginMethods: ["wallet", "google", "apple", "email"],
         embeddedWallets: {
           // Auto-provision a Solana embedded wallet for social sign-ins.
           solana: { createOnLogin: "users-without-wallets" },
+        },
+        externalWallets: {
+          solana: { connectors: solanaConnectors },
         },
       }}
     >
