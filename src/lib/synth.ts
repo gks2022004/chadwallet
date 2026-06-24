@@ -53,6 +53,27 @@ export function synthCandles(mint: string, price: number, change24h = 0): Candle
 
 const WORDS = ["7xKp", "Hn3v", "9zQa", "Bd4R", "Lm8T", "Cw2N", "Fy6J", "Px1S", "Rk5G", "Tz0M"];
 
+export type HolderRow = { rank: number; owner: string; pct: number; usd: number };
+
+// Plausible top-10 distribution (whales -> shrimp) when Birdeye holders aren't available.
+export function synthHolders(mint: string, mcap: number): HolderRow[] {
+  const rnd = seeded(seedFrom(mint) ^ 0x1234abcd);
+  const rows: HolderRow[] = [];
+  let remaining = 62; // top 10 hold ~62%
+  for (let i = 0; i < 10; i++) {
+    const raw = i === 0 ? 14 : remaining * (0.28 - i * 0.015);
+    const pct = Math.max(0.2, raw);
+    remaining -= pct;
+    const owner =
+      WORDS[Math.floor(rnd() * WORDS.length)] +
+      Math.floor(rnd() * 99999).toString(36) +
+      "…" +
+      WORDS[Math.floor(rnd() * WORDS.length)].slice(0, 3);
+    rows.push({ rank: i + 1, owner, pct, usd: (mcap * pct) / 100 });
+  }
+  return rows;
+}
+
 export function synthTrades(mint: string, price: number, count = 24): BeTrade[] {
   const rnd = seeded(seedFrom(mint) ^ 0x9e3779b9);
   const now = Date.now();

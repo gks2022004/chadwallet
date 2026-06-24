@@ -4,34 +4,13 @@ import { useEffect, useState } from "react";
 import { fmtUsd, compact, timeAgo, shortAddr } from "@/lib/format";
 import type { Trade, TokenDetail } from "@/lib/types";
 
-function synthHolders(token: TokenDetail) {
-  const total = token.holders ?? 1000;
-  const supply = token.supply ?? 1_000_000_000;
-  // top-10 distribution that tapers off (whales -> shrimp)
-  const rows: { rank: number; addr: string; pct: number; usd: number }[] = [];
-  let remaining = 62; // top 10 hold ~62%
-  const seedChars = "ABCDEFGHJKLMNPQRSTUVWXYZ123456789";
-  for (let i = 0; i < 10; i++) {
-    const pct = i === 0 ? 14 : Math.max(0.6, remaining * (0.28 - i * 0.015));
-    remaining -= pct;
-    const addr =
-      seedChars[(i * 7 + token.mint.charCodeAt(i % token.mint.length)) % seedChars.length] +
-      token.mint.slice(2 + i, 6 + i) +
-      "…" +
-      token.mint.slice(-3);
-    rows.push({
-      rank: i + 1,
-      addr,
-      pct: Math.max(0.2, pct),
-      usd: ((token.mcap ?? supply) * Math.max(0.2, pct)) / 100,
-    });
-  }
-  return { total, rows };
-}
+type HolderRow = { rank: number; owner: string; pct: number; usd: number };
 
 export default function ActivityPanel({ token }: { token: TokenDetail }) {
   const [tab, setTab] = useState<"trades" | "holders">("trades");
   const [trades, setTrades] = useState<Trade[]>([]);
+  const [holders, setHolders] = useState<HolderRow[] | null>(null);
+  const [holderTotal, setHolderTotal] = useState(token.holders ?? 0);
 
   useEffect(() => {
     let alive = true;
@@ -52,7 +31,22 @@ export default function ActivityPanel({ token }: { token: TokenDetail }) {
     };
   }, [token.mint]);
 
-  const holders = synthHolders(token);
+  // Lazily load the real holder list the first time the tab is opened.
+  useEffect(() => {
+    if (tab !== "holders" || holders !== null) return;
+    let alive = true;
+    fetch(`/api/tokens/${token.mint}/holders`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (!alive) return;
+        setHolders(d.holders ?? []);
+        if (d.total) setHolderTotal(d.total);
+      })
+      .catch(() => alive && setHolders([]));
+    return () => {
+      alive = false;
+    };
+  }, [tab, holders, token.mint]);
 
   return (
     <div className="flex flex-col h-full">
@@ -65,7 +59,7 @@ export default function ActivityPanel({ token }: { token: TokenDetail }) {
               tab === t ? "text-text border-b-2 border-lime" : "text-muted hover:text-text"
             }`}
           >
-            {t === "trades" ? "Live trades" : `Holders (${compact(holders.total)})`}
+            {t === "trades" ? "Live trades" : `Holders${holderTotal ? ` (${compact(holderTotal)})` : ""}`}
           </button>
         ))}
       </div>
@@ -109,14 +103,22 @@ export default function ActivityPanel({ token }: { token: TokenDetail }) {
               </tr>
             </thead>
             <tbody className="font-mono">
-              {holders.rows.map((h) => (
-                <tr key={h.rank} className="border-b border-border-soft/40 hover:bg-surface-2/50">
-                  <td className="px-3 py-1.5 text-muted-2">{h.rank}</td>
-                  <td className="px-2 py-1.5">{h.addr}</td>
-                  <td className="px-2 py-1.5 text-right text-gold">{h.pct.toFixed(2)}%</td>
-                  <td className="px-3 py-1.5 text-right text-muted">{fmtUsd(h.usd, { compact: true })}</td>
+              {holders === null ? (
+                <tr>
+                  <td colSpan={4} className="px-3 py-6 text-center text-muted-2">
+                    Loading holders…
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                holders.map((h) => (
+                  <tr key={h.rank} className="border-b border-border-soft/40 hover:bg-surface-2/50">
+                    <td className="px-3 py-1.5 text-muted-2">{h.rank}</td>
+                    <td className="px-2 py-1.5">{h.owner.includes("…") ? h.owner : shortAddr(h.owner)}</td>
+                    <td className="px-2 py-1.5 text-right text-gold">{h.pct.toFixed(2)}%</td>
+                    <td className="px-3 py-1.5 text-right text-muted">{fmtUsd(h.usd, { compact: true })}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         )}

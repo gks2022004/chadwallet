@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { fmtUsd, compact } from "@/lib/format";
+import { usePrivy } from "@privy-io/react-auth";
+import { fmtUsd, compact, shortAddr } from "@/lib/format";
 import type { TokenDetail } from "@/lib/types";
 import SignInButton from "@/components/SignInButton";
 
@@ -170,7 +171,7 @@ export default function TradePanel({ token, solPrice }: { token: TokenDetail; so
           )}
         </div>
         <p className="text-[10px] text-muted-2 leading-relaxed pb-3">
-          Quotes are live from Jupiter. Connect a funded Solana wallet to broadcast swaps on mainnet.
+          Quotes are live from Jupiter. This previews swaps only — it never broadcasts a transaction or moves funds.
         </p>
       </div>
 
@@ -197,21 +198,113 @@ function ConfirmButton({ side, symbol, disabled }: { side: "buy" | "sell"; symbo
   );
 }
 
-function Position({ token }: { token: TokenDetail }) {
-  // Placeholder position card — wired to the user's embedded wallet balances
-  // once Privy + an RPC (Alchemy) key are configured.
+function PositionShell({ token, children }: { token: TokenDetail; children: React.ReactNode }) {
   return (
     <div className="mt-auto border-t border-border-soft p-3">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-semibold">Your position</h3>
         <span className="text-[10px] text-muted-2 font-mono">{token.symbol}</span>
       </div>
-      <div className="rounded-xl bg-bg-2 border border-border-soft p-3 text-center">
-        <p className="text-sm text-muted">No open position</p>
-        <p className="text-[11px] text-muted-2 mt-1">
-          Sign in & fund your wallet to start trading {token.symbol}.
-        </p>
-      </div>
+      <div className="rounded-xl bg-bg-2 border border-border-soft p-3">{children}</div>
     </div>
+  );
+}
+
+function Position({ token }: { token: TokenDetail }) {
+  // Hooks can't be called conditionally; only mount the Privy-reading variant
+  // when an app id is configured (otherwise usePrivy throws — no provider).
+  if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {
+    return (
+      <PositionShell token={token}>
+        <p className="text-sm text-muted text-center">No open position</p>
+        <p className="text-[11px] text-muted-2 mt-1 text-center">
+          Sign in & connect a wallet to view your {token.symbol} position.
+        </p>
+      </PositionShell>
+    );
+  }
+  return <LivePosition token={token} />;
+}
+
+type Balances = { sol: number | null; token: number | null } | null;
+
+function LivePosition({ token }: { token: TokenDetail }) {
+  const { ready, authenticated, user } = usePrivy();
+  const [bal, setBal] = useState<Balances>(null);
+  const [loading, setLoading] = useState(false);
+
+  // Prefer a linked Solana wallet; fall back to the primary wallet address.
+  const wallet =
+    (user?.linkedAccounts?.find(
+      (a: any) => a.type === "wallet" && a.chainType === "solana",
+    ) as any)?.address ?? user?.wallet?.address;
+
+  useEffect(() => {
+    if (!authenticated || !wallet) {
+      setBal(null);
+      return;
+    }
+    let alive = true;
+    setLoading(true);
+    fetch(`/api/wallet/${wallet}?mint=${token.mint}`)
+      .then((r) => r.json())
+      .then((d) => alive && setBal({ sol: d.sol, token: d.token }))
+      .catch(() => alive && setBal(null))
+      .finally(() => alive && setLoading(false));
+    return () => {
+      alive = false;
+    };
+  }, [authenticated, wallet, token.mint]);
+
+  if (!ready || (authenticated && loading && !bal)) {
+    return (
+      <PositionShell token={token}>
+        <p className="text-sm text-muted-2 text-center">…</p>
+      </PositionShell>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <PositionShell token={token}>
+        <div className="text-center">
+          <p className="text-sm text-muted">No open position</p>
+          <SignInButton className="w-full justify-center py-2 mt-2 text-sm" />
+        </div>
+      </PositionShell>
+    );
+  }
+
+  const tokenAmt = bal?.token ?? 0;
+  const tokenUsd = tokenAmt * (token.price ?? 0);
+  const solAmt = bal?.sol ?? 0;
+
+  return (
+    <PositionShell token={token}>
+      {wallet && (
+        <div className="flex justify-between text-[11px] text-muted-2 mb-2 font-mono">
+          <span>{shortAddr(wallet)}</span>
+          <span>read-only</span>
+        </div>
+      )}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted">{token.symbol}</span>
+          <div className="text-right">
+            <div className="text-sm font-mono">{compact(tokenAmt)}</div>
+            <div className="text-[11px] text-muted-2">{fmtUsd(tokenUsd)}</div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between border-t border-border-soft pt-2">
+          <span className="text-xs text-muted">SOL</span>
+          <span className="text-sm font-mono">{solAmt.toFixed(4)} ◎</span>
+        </div>
+      </div>
+      {tokenAmt === 0 && (
+        <p className="text-[11px] text-muted-2 mt-2 text-center">
+          No {token.symbol} held yet.
+        </p>
+      )}
+    </PositionShell>
   );
 }

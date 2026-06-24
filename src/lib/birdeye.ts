@@ -78,3 +78,15 @@ export async function getTrades(mint: string, limit = 30): Promise<BeTrade[] | n
     }) ?? null;
   return remember(`trades:${mint}`, trades);
 }
+
+export type BeHolder = { owner: string; uiAmount: number };
+
+export async function getHolders(mint: string, limit = 10): Promise<BeHolder[] | null> {
+  const data = await beget<{ data?: { items?: any[] } }>(
+    `/defi/v3/token/holder?address=${mint}&offset=0&limit=${limit}`,
+  );
+  const items = data?.data?.items;
+  const holders: BeHolder[] | null =
+    items?.map((h) => ({ owner: h.owner ?? "", uiAmount: h.ui_amount ?? 0 })) ?? null;
+  return remember(`holders:${mint}`, holders);
+}

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx --yes create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --use-npm --yes)"
+      "Bash(npx --yes create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --use-npm --yes)",
+      "Bash(curl -s -o /dev/null -w \"trade page HTTP %{http_code}\\\\n\" \"http://localhost:3000/trade/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263\")"
     ]
   }
 }
