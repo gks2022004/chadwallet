@@ -23,7 +23,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         appearance: {
           theme: "dark",
           accentColor: "#c8ff4d",
-          logo: "/chad-logo.svg",
+          logo: "/dark.png",
           walletChainType: "solana-only",
         },
         loginMethods: ["wallet", "google", "apple", "email"],
