@@ -99,6 +99,11 @@ export default async function TradePage({ params }: { params: Promise<{ mint: st
           <TradePanel token={token} solPrice={solPrice} />
         </div>
       )}
+
+      {/* Bottom ticker — rotating banner (pairs with the one under the header) */}
+      <div className="shrink-0">
+        <TokenBanner reverse durationSec={95} />
+      </div>
     </div>
   );
 }

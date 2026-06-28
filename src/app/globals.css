@@ -52,6 +52,45 @@ body {
   overflow-x: hidden;
 }
 
+/* Cosmic full-page backdrop: deep space gradient + drifting starfield. */
+.space-page {
+  position: relative;
+  isolation: isolate;
+}
+.space-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(80% 55% at 50% -8%, rgba(32, 232, 131, 0.10), transparent 60%),
+    radial-gradient(60% 45% at 85% 8%, rgba(45, 160, 245, 0.12), transparent 65%),
+    radial-gradient(55% 50% at 8% 30%, rgba(32, 232, 131, 0.06), transparent 60%),
+    linear-gradient(180deg, #03060f 0%, var(--bg) 45%, #02040c 100%);
+}
+.space-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.6;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 28% 62%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.4px 1.4px at 44% 32%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 63% 78%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1.2px 1.2px at 76% 22%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 88% 56%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 52% 90%, rgba(255, 255, 255, 0.3), transparent);
+  background-repeat: repeat;
+  background-size: 620px 620px;
+  animation: drift 140s linear infinite;
+}
+@keyframes drift {
+  from { background-position: 0 0; }
+  to { background-position: 620px 1240px; }
+}
+
 ::selection {
   background: var(--lime);
   color: #00150b;
@@ -223,6 +262,36 @@ body {
 .glass {
   background: color-mix(in srgb, var(--surface) 85%, transparent);
   backdrop-filter: blur(12px);
+}
+
+/* fomo-style feature cards */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(21, 32, 53, 0.55) 0%, rgba(6, 11, 23, 0.4) 100%);
+  padding: 1.6rem;
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+.feature-card:hover {
+  border-color: color-mix(in srgb, var(--lime) 45%, transparent);
+  transform: translateY(-4px);
+  background: linear-gradient(180deg, rgba(28, 42, 68, 0.7) 0%, rgba(8, 14, 28, 0.5) 100%);
+}
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--lime) 14%, transparent);
+  color: var(--lime);
+  border: 1px solid color-mix(in srgb, var(--lime) 28%, transparent);
+}
+.hero-eyebrow {
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  backdrop-filter: blur(8px);
 }
 
 .btn-lime {
