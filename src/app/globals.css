@@ -14,8 +14,11 @@
   --lime: #20e883;
   --lime-dim: #12bd69;
   --gold: #55c7ff;
-  --up: #20e883;
+  --up: #3ad17f;
   --down: #ff443d;
+  /* fomo-style periwinkle accent */
+  --accent: #7b7cf0;
+  --accent-2: #6366f1;
 }
 
 @theme inline {
@@ -33,6 +36,8 @@
   --color-gold: var(--gold);
   --color-up: var(--up);
   --color-down: var(--down);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
@@ -292,6 +297,188 @@ body {
 .hero-eyebrow {
   background: color-mix(in srgb, var(--surface) 75%, transparent);
   backdrop-filter: blur(8px);
+}
+
+/* ===================== fomo-style landing replica ===================== */
+
+/* Buttons */
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, #8f90f5 0%, var(--accent) 55%, var(--accent-2) 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.7);
+  transition: transform 0.12s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-accent:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 36px -10px rgba(99, 102, 241, 0.8);
+}
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  background: #15161d;
+  color: #fff;
+  font-weight: 600;
+  border: 1px solid #262732;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.btn-dark:hover {
+  background: #1d1e27;
+  border-color: #34354400;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Hero: looking at Earth's limb from space */
+.fomo-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 78% -25%, rgba(120, 180, 255, 0.55), transparent 42%),
+    radial-gradient(90% 60% at 88% -8%, rgba(180, 220, 255, 0.45), transparent 38%),
+    radial-gradient(40% 30% at 6% 4%, rgba(255, 150, 70, 0.22), transparent 60%),
+    radial-gradient(70% 50% at 50% 8%, rgba(70, 90, 160, 0.25), transparent 60%),
+    #03040a;
+}
+.fomo-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 18% 24%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 34% 58%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.4px 1.4px at 52% 30%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 12% 70%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 62% 76%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 8% 44%, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 700px 700px;
+}
+
+/* Big brand wordmark in hero */
+.brand-wordmark {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #ffffff 0%, #d7dcff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hero centerpiece logo glow */
+.hero-orb {
+  filter: drop-shadow(0 0 60px rgba(123, 124, 240, 0.55));
+}
+
+/* Monitor + phone product mockup */
+.monitor-frame {
+  border-radius: 0.9rem;
+  border: 1px solid #20222e;
+  background: #0a0b11;
+  padding: 0.55rem;
+  box-shadow: 0 50px 120px -50px rgba(80, 110, 255, 0.45);
+}
+.monitor-frame img {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.monitor-stand {
+  width: 9rem;
+  height: 3.2rem;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #14151c, #0a0b10);
+  clip-path: polygon(38% 0, 62% 0, 72% 100%, 28% 100%);
+}
+.monitor-base {
+  width: 13rem;
+  height: 0.7rem;
+  margin: 0 auto;
+  border-radius: 99px;
+  background: #14151c;
+}
+.phone-frame {
+  border-radius: 1.6rem;
+  border: 2px solid #23252f;
+  background: #07080d;
+  padding: 0.4rem;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+.phone-frame img {
+  border-radius: 1.2rem;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Feature cards (the 6-card social grid) */
+.fcard {
+  border-radius: 1.25rem;
+  border: 1px solid #16171f;
+  background: #0a0b11;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+.fcard-inner {
+  border-radius: 0.85rem;
+  border: 1px solid #181922;
+  background: #0d0e15;
+}
+
+/* multichain crystal blobs */
+.crystal {
+  border-radius: 0.55rem;
+  transform: rotate(8deg);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Community section */
+.community {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 60% at 50% 38%, rgba(86, 84, 220, 0.55), transparent 62%),
+    linear-gradient(180deg, #05060c 0%, #15163a 42%, #0a0a1c 100%);
+}
+.community::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background: radial-gradient(120% 100% at 50% 120%, rgba(8, 8, 20, 0.95), transparent 70%);
+  pointer-events: none;
+}
+.orbit-ring {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+.orbit-avatar {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #2a2b55, #4b4ca0);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
 }
 
 .btn-lime {
