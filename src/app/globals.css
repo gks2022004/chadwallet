@@ -48,13 +48,26 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* Cosmic full-page backdrop: deep space gradient + drifting starfield. */
@@ -303,35 +316,46 @@ body {
 
 /* Buttons */
 .btn-accent {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.85rem;
-  background: linear-gradient(180deg, #8f90f5 0%, var(--accent) 55%, var(--accent-2) 100%);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, #9495f7 0%, var(--accent) 52%, var(--accent-2) 100%);
   color: #fff;
   font-weight: 600;
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.7);
-  transition: transform 0.12s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 34px -12px rgba(99, 102, 241, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease, box-shadow 0.25s ease;
 }
 .btn-accent:hover {
-  filter: brightness(1.07);
-  transform: translateY(-1px);
-  box-shadow: 0 14px 36px -10px rgba(99, 102, 241, 0.8);
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px -12px rgba(99, 102, 241, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.btn-accent:active {
+  transform: translateY(0);
 }
 .btn-dark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.85rem;
-  background: #15161d;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
   font-weight: 600;
-  border: 1px solid #262732;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease, border-color 0.25s ease;
 }
 .btn-dark:hover {
-  background: #1d1e27;
-  border-color: #34354400;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+.btn-dark:active {
+  transform: translateY(0);
 }
 
 .eyebrow {
@@ -438,16 +462,35 @@ body {
 
 /* Feature cards (the 6-card social grid) */
 .fcard {
-  border-radius: 1.25rem;
-  border: 1px solid #16171f;
-  background: #0a0b11;
-  padding: 1.5rem;
+  position: relative;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0) 40%),
+    #0a0b11;
+  padding: 1.6rem;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s ease, box-shadow 0.4s ease;
+}
+/* hairline sheen along the top edge */
+.fcard::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  opacity: 0.7;
+}
+.fcard:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: 0 30px 60px -30px rgba(99, 102, 241, 0.4);
 }
 .fcard-inner {
-  border-radius: 0.85rem;
-  border: 1px solid #181922;
-  background: #0d0e15;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.15));
 }
 
 /* multichain crystal blobs */

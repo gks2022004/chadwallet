@@ -5,6 +5,7 @@ import TokenBanner from "@/components/TokenBanner";
 import StoreButtons from "@/components/StoreButtons";
 import AstronautHero from "@/components/AstronautHero";
 import CommunityOrbit from "@/components/CommunityOrbit";
+import Reveal from "@/components/Reveal";
 import Logo from "@/components/Logo";
 
 /* ---- leaderboard mock rows (LEADERBOARD card) ---- */
@@ -63,18 +64,20 @@ export default function Home() {
 
         {/* ═══════════════════ Trade from anywhere ═══════════════════ */}
         <section className="relative bg-bg px-4 py-20 text-center sm:px-6 sm:py-28">
-          <p className="eyebrow">Now on the web</p>
-          <h2 className="mx-auto mt-4 max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl">
-            Trade from anywhere.
-            <br />
-            Never miss a beat.
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
-            Open a trade on your phone, finish it on your desktop — one account, everywhere.
-          </p>
+          <Reveal>
+            <p className="eyebrow">Now on the web</p>
+            <h2 className="mx-auto mt-4 max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl">
+              Trade from anywhere.
+              <br />
+              Never miss a beat.
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+              Open a trade on your phone, finish it on your desktop — one account, everywhere.
+            </p>
+          </Reveal>
 
           {/* monitor + phone mockup */}
-          <div className="relative mx-auto mt-14 max-w-4xl">
+          <Reveal delay={0.1} className="relative mx-auto mt-14 max-w-4xl">
             <div className="monitor-frame">
               <Image
                 src="/flow/buy-sell-4.png"
@@ -97,15 +100,17 @@ export default function Home() {
                 className="!aspect-[9/18] object-cover"
               />
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* ═══════════════════ Never miss out again ═══════════════════ */}
         <section id="features" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Never miss out again</h2>
-          <p className="mt-3 text-base text-muted">The social-first Solana trading app.</p>
+          <Reveal>
+            <h2 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Never miss out again</h2>
+            <p className="mt-3 text-base text-muted">The social-first Solana trading app.</p>
+          </Reveal>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <Reveal delay={0.08} className="mt-10 grid gap-4 md:grid-cols-3">
             {/* 1 — Leaderboard */}
             <div className="fcard">
               <p className="eyebrow">Leaderboard</p>
@@ -226,7 +231,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* ═══════════════════ Community ═══════════════════ */}
@@ -235,7 +240,7 @@ export default function Home() {
             {/* orbiting avatar field */}
             <CommunityOrbit />
 
-            <div className="relative z-10">
+            <Reveal className="relative z-10">
               <h2 className="text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
                 A wallet for every trader.
               </h2>
@@ -250,20 +255,24 @@ export default function Home() {
                   Download app
                 </a>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
         {/* ═══════════════════ Download ═══════════════════ */}
         <section id="download" className="bg-bg px-4 py-20 text-center sm:px-6">
-          <Logo size={52} showWordmark={false} />
-          <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Get ChadWallet</h2>
-          <p className="mx-auto mt-3 max-w-md text-sm text-muted">
-            Download for iPhone or Android, or trade right here on the web.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <StoreButtons />
-          </div>
+          <Reveal>
+            <div className="flex justify-center">
+              <Logo size={52} showWordmark={false} />
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Get ChadWallet</h2>
+            <p className="mx-auto mt-3 max-w-md text-sm text-muted">
+              Download for iPhone or Android, or trade right here on the web.
+            </p>
+            <div className="mt-7 flex justify-center">
+              <StoreButtons />
+            </div>
+          </Reveal>
         </section>
       </main>
 
