@@ -3,6 +3,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import TokenBanner from "@/components/TokenBanner";
 import StoreButtons from "@/components/StoreButtons";
+import AstronautHero from "@/components/AstronautHero";
+import CommunityOrbit from "@/components/CommunityOrbit";
 import Logo from "@/components/Logo";
 
 /* ---- leaderboard mock rows (LEADERBOARD card) ---- */
@@ -31,16 +33,19 @@ export default function Home() {
 
       <main>
         {/* ═══════════════════ Hero ═══════════════════ */}
-        <section className="fomo-hero">
-          <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-10 text-center sm:px-6 sm:pt-16">
+        <section className="fomo-hero min-h-[88vh]">
+          <AstronautHero />
+          <div className="fomo-hero-overlay" />
+
+          <div className="relative z-10 mx-auto max-w-5xl px-4 pb-32 pt-10 text-center sm:px-6 sm:pt-16">
             <div className="flex items-center justify-center gap-3">
               <Logo size={56} showWordmark={false} />
             </div>
             <h1 className="brand-wordmark mt-5 text-6xl sm:text-7xl md:text-8xl">chadwallet</h1>
-            <p className="mt-5 text-2xl font-semibold tracking-[-0.02em] text-text sm:text-3xl">
+            <p className="hero-shadow mt-5 text-2xl font-semibold tracking-[-0.02em] text-white sm:text-3xl">
               Trade any Solana token in seconds.
             </p>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+            <p className="hero-shadow mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
               From memecoins to blue-chips — catch the move, follow the winners, and trade before the
               timeline reacts.
             </p>
@@ -52,11 +57,6 @@ export default function Home() {
               <a href="#download" className="btn-dark px-7 py-3 text-sm">
                 Download app
               </a>
-            </div>
-
-            {/* centerpiece — glowing brand orb in place of the astronaut */}
-            <div className="float hero-orb mx-auto mt-10 w-fit">
-              <Logo size={190} showWordmark={false} />
             </div>
           </div>
         </section>
@@ -232,28 +232,8 @@ export default function Home() {
         {/* ═══════════════════ Community ═══════════════════ */}
         <section className="community px-4 py-28 sm:py-36">
           <div className="relative mx-auto max-w-3xl text-center">
-            {/* orbit rings + avatars */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-0 hidden h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 sm:block">
-              <div className="orbit-ring absolute inset-0" />
-              <div className="orbit-ring absolute inset-12 opacity-60" />
-              {[
-                { t: "6%", l: "32%", s: 44, c: "A" },
-                { t: "10%", l: "66%", s: 38, c: "B" },
-                { t: "40%", l: "90%", s: 52, c: "◎" },
-                { t: "78%", l: "76%", s: 40, c: "C" },
-                { t: "90%", l: "44%", s: 46, c: "D" },
-                { t: "74%", l: "10%", s: 38, c: "E" },
-                { t: "34%", l: "2%", s: 50, c: "F" },
-              ].map((a, i) => (
-                <span
-                  key={i}
-                  className="orbit-avatar absolute text-xs"
-                  style={{ top: a.t, left: a.l, width: a.s, height: a.s }}
-                >
-                  {a.c}
-                </span>
-              ))}
-            </div>
+            {/* orbiting avatar field */}
+            <CommunityOrbit />
 
             <div className="relative z-10">
               <h2 className="text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">

@@ -342,30 +342,39 @@ body {
   text-transform: uppercase;
 }
 
-/* Hero: looking at Earth's limb from space */
+/* Hero: real astronaut + Earth photo backdrop */
 .fomo-hero {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(120% 80% at 78% -25%, rgba(120, 180, 255, 0.55), transparent 42%),
-    radial-gradient(90% 60% at 88% -8%, rgba(180, 220, 255, 0.45), transparent 38%),
-    radial-gradient(40% 30% at 6% 4%, rgba(255, 150, 70, 0.22), transparent 60%),
-    radial-gradient(70% 50% at 50% 8%, rgba(70, 90, 160, 0.25), transparent 60%),
-    #03040a;
+  background: #03040a;
 }
-.fomo-hero::before {
-  content: "";
+.fomo-hero-bg {
   position: absolute;
   inset: 0;
+  z-index: 0;
+}
+.fomo-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+/* darken the upper region (where the copy sits) and feather the bottom into black */
+.fomo-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 18% 24%, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 34% 58%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1.4px 1.4px at 52% 30%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 12% 70%, rgba(255, 255, 255, 0.45), transparent),
-    radial-gradient(1px 1px at 62% 76%, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(1px 1px at 8% 44%, rgba(255, 255, 255, 0.5), transparent);
-  background-size: 700px 700px;
+  background:
+    radial-gradient(70% 55% at 50% 26%, rgba(3, 4, 10, 0.78), transparent 70%),
+    linear-gradient(180deg, rgba(3, 4, 10, 0.92) 0%, rgba(3, 4, 10, 0.8) 32%, rgba(3, 4, 10, 0.5) 54%, rgba(3, 4, 10, 0.5) 76%, #03040a 100%);
+}
+/* legibility shadows for hero copy sitting over the photo */
+.hero-shadow {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+.brand-wordmark {
+  filter: drop-shadow(0 4px 30px rgba(0, 0, 0, 0.85));
 }
 
 /* Big brand wordmark in hero */
@@ -452,33 +461,44 @@ body {
 .community {
   position: relative;
   overflow: hidden;
+  /* Indigo bloom from the centre that fades to the page's black at every edge,
+     so the section melts into the black above and below with no seam. */
   background:
-    radial-gradient(70% 60% at 50% 38%, rgba(86, 84, 220, 0.55), transparent 62%),
-    linear-gradient(180deg, #05060c 0%, #15163a 42%, #0a0a1c 100%);
+    radial-gradient(78% 66% at 50% 54%, rgba(99, 96, 232, 0.42) 0%, rgba(58, 54, 150, 0.16) 38%, rgba(12, 12, 30, 0) 70%),
+    radial-gradient(120% 80% at 50% 120%, rgba(120, 110, 240, 0.18), transparent 55%),
+    #03040a;
 }
+/* soft top + bottom feathering into pure black */
+.community::before,
 .community::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 42%;
-  background: radial-gradient(120% 100% at 50% 120%, rgba(8, 8, 20, 0.95), transparent 70%);
+  height: 28%;
   pointer-events: none;
+  z-index: 1;
+}
+.community::before {
+  top: 0;
+  background: linear-gradient(180deg, #03040a 0%, transparent 100%);
+}
+.community::after {
+  bottom: 0;
+  background: linear-gradient(0deg, #03040a 0%, transparent 100%);
 }
 .orbit-ring {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
 }
 .orbit-avatar {
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  background: linear-gradient(135deg, #2a2b55, #4b4ca0);
+  border: 2px solid rgba(255, 255, 255, 0.14);
   display: grid;
   place-items: center;
-  font-weight: 700;
-  color: #fff;
-  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 0 4px rgba(8, 8, 24, 0.5);
+  backdrop-filter: blur(2px);
 }
 
 .btn-lime {
